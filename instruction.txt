@@ -1,0 +1,110 @@
+# Hướng Dẫn Xây Dựng Hệ Thống Kiểm Tra Kiến Thức
+
+## 1. Giới Thiệu
+Dự án này xây dựng một hệ thống kiểm tra kiến thức với **FastAPI** (Backend) và **Streamlit** (Frontend). Hệ thống hỗ trợ ba loại câu hỏi:
+- **Điền vào chỗ trống** (Fill-in-the-blank)
+- **Trắc nghiệm** (Multiple Choice)
+- **Sắp xếp câu** (Sentence Rearrangement)
+
+Hệ thống có thể lưu trữ dữ liệu câu hỏi trong danh sách Python hoặc mở rộng với **SQLite/PostgreSQL**. Ngoài ra, có thể tích hợp **OpenAI LLM** để tạo lời giải thích cho câu hỏi.
+
+---
+
+## 2. Công Nghệ Sử Dụng
+- **Backend**: FastAPI
+- **Frontend**: Streamlit
+- **Cơ sở dữ liệu**: Danh sách Python (hoặc SQLite/PostgreSQL)
+- **Machine Learning**: OpenAI LLM (tùy chọn)
+
+---
+
+## 3. Cấu Trúc Dự Án
+```
+knowledge-test/
+│── backend/              # FastAPI Backend
+│   ├── main.py           # Entry point cho FastAPI
+│   ├── database.py       # Lưu trữ dữ liệu câu hỏi
+│   ├── models.py         # Định nghĩa schema dữ liệu
+│   ├── services.py       # Xử lý logic kiểm tra đáp án
+│   ├── openai_helper.py  # Tích hợp OpenAI LLM
+│   ├── requirements.txt  # Thư viện backend
+│
+│── frontend/             # Streamlit Frontend
+│   ├── app.py            # Chạy giao diện Streamlit
+│   ├── requirements.txt  # Thư viện frontend
+│
+│── README.md             # Hướng dẫn sử dụng
+│── .gitignore            # Bỏ qua file không cần thiết
+```
+
+---
+
+## 4. Chức Năng Chính
+
+### 4.1. **Backend (FastAPI)**
+
+#### 🔹 API Lấy Câu Hỏi (`/get-question`)
+- Trả về một câu hỏi ngẫu nhiên từ danh sách dữ liệu.
+- Dữ liệu câu hỏi gồm: `id`, `type`, `question`, `options` (nếu có), `answer`, `explanation`.
+- Lời giải thích có thể tự thêm hoặc sử dụng OpenAI để sinh ra.
+
+#### 🔹 API Kiểm Tra Đáp Án (`/check-answer`)
+- Nhận đầu vào từ người dùng dưới dạng JSON:
+```json
+{
+  "question_type": "string",
+  "question_id": number,
+  "answer": "string hoặc array tùy dạng câu hỏi"
+}
+```
+- Trả về kết quả đúng/sai kèm lời giải thích.
+- So sánh câu trả lời bằng thuật toán phù hợp.
+
+#### 🔹 API Tạo Bài Thi (`/generate-exam`)
+- Sinh một bài kiểm tra với số lượng câu hỏi tùy chỉnh.
+- Trả về danh sách các câu hỏi để người dùng làm bài.
+
+#### 🔹 Tích Hợp OpenAI LLM
+- Sinh lời giải thích tự động nếu không có sẵn.
+
+---
+
+### 4.2. **Frontend (Streamlit)**
+- Giao diện hiển thị câu hỏi, nhận câu trả lời từ người dùng.
+- Gửi yêu cầu API đến backend để lấy dữ liệu và kiểm tra kết quả.
+- Hiển thị kết quả kiểm tra và lời giải thích.
+- Có thể hiển thị lịch sử bài thi và thống kê tỉ lệ đúng/sai.
+
+---
+
+## 5. Cài Đặt & Chạy Dự Án
+
+### 5.1. **Chạy Backend**
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+### 5.2. **Chạy Frontend**
+```bash
+cd frontend
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+---
+
+## 6. Yêu Cầu Triển Khai
+- Code rõ ràng, dễ bảo trì, chia module hợp lý.
+- Hiệu suất tốt, phản hồi nhanh.
+- Có thể mở rộng hỗ trợ nhiều người dùng và lưu lịch sử bài kiểm tra.
+
+---
+
+## 7. Tính Năng Bổ Sung (Tùy Chọn)
+- Hỗ trợ nhiều người dùng với lịch sử bài thi.
+- Thống kê số lần làm bài và tỉ lệ đúng/sai.
+- Tích hợp nhận diện giọng nói để nhập câu trả lời.
+
+---
