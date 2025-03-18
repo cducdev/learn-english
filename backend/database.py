@@ -3,81 +3,82 @@ from typing import List, Dict, Any, Optional, Union
 
 # Dữ liệu mẫu cho các câu hỏi
 questions_data = [
-    # Câu hỏi điền vào chỗ trống
+    # Fill in the blank questions
     {
         "id": 1,
         "type": "fill_blank",
-        "question": "Thủ đô của Việt Nam là _____.",
-        "answer": "Hà Nội"
+        "question": "The capital of Vietnam is _____.",
+        "answer": "Hanoi"
     },
     {
         "id": 2,
         "type": "fill_blank",
-        "question": "Ngôn ngữ lập trình Python được tạo ra bởi _____.",
+        "question": "The Python programming language was created by _____.",
         "answer": "Guido van Rossum"
     },
     
-    # Câu hỏi trắc nghiệm
+    # Multiple choice questions
     {
         "id": 3,
         "type": "multiple_choice",
-        "question": "Đâu là hành tinh lớn nhất trong hệ mặt trời?",
-        "options": ["Trái Đất", "Sao Hỏa", "Sao Mộc", "Sao Thổ"],
-        "answer": "Sao Mộc"
+        "question": "Which is the largest planet in the Solar System?",
+        "options": ["Earth", "Mars", "Jupiter", "Saturn"],
+        "answer": "Jupiter"
     },
     {
         "id": 4,
         "type": "multiple_choice",
-        "question": "Ngôn ngữ lập trình nào được sử dụng phổ biến nhất trong AI?",
+        "question": "Which programming language is most commonly used in AI?",
         "options": ["Java", "C++", "Python", "JavaScript"],
         "answer": "Python"
     },
     
-    # Câu hỏi sắp xếp câu
+    # Sentence rearrangement questions
     {
         "id": 5,
         "type": "sentence_rearrangement",
-        "question": "Sắp xếp các từ sau thành câu hoàn chỉnh",
-        "options": ["học", "tôi", "trường", "đang", "đại", "tại"],
-        "answer": ["tôi", "đang", "học", "tại", "trường", "đại"]
+        "question": "Rearrange the following words to form a complete sentence.",
+        "options": ["studying", "I", "university", "am", "at", "a"],
+        "answer": ["I", "am", "studying", "at", "a", "university"]
     },
     {
         "id": 6,
         "type": "sentence_rearrangement",
-        "question": "Sắp xếp các bước để tạo một ứng dụng web",
-        "options": ["Triển khai", "Thiết kế", "Kiểm thử", "Phân tích yêu cầu", "Phát triển"],
-        "answer": ["Phân tích yêu cầu", "Thiết kế", "Phát triển", "Kiểm thử", "Triển khai"]
+        "question": "Arrange the steps to create a web application.",
+        "options": ["Deployment", "Design", "Testing", "Requirement analysis", "Development"],
+        "answer": ["Requirement analysis", "Design", "Development", "Testing", "Deployment"]
     },
     
-    # Thêm một số câu hỏi mới
+    # Additional questions
     {
         "id": 7,
         "type": "fill_blank",
-        "question": "Ngôn ngữ lập trình được sử dụng để phát triển ứng dụng iOS là _____.",
+        "question": "The programming language used to develop iOS applications is _____.",
         "answer": "Swift"
     },
     {
         "id": 8,
         "type": "multiple_choice",
-        "question": "Đâu là thành phố đông dân nhất Việt Nam?",
-        "options": ["Hà Nội", "Hồ Chí Minh", "Đà Nẵng", "Hải Phòng"],
-        "answer": "Hồ Chí Minh"
+        "question": "Which is the most populous city in Vietnam?",
+        "options": ["Hanoi", "Ho Chi Minh City", "Da Nang", "Hai Phong"],
+        "answer": "Ho Chi Minh City"
     },
     {
         "id": 9,
         "type": "sentence_rearrangement",
-        "question": "Sắp xếp các từ sau thành câu có nghĩa",
-        "options": ["mưa", "trời", "hôm nay", "to"],
-        "answer": ["hôm nay", "trời", "mưa", "to"]
+        "question": "Rearrange the following words to form a meaningful sentence.",
+        "options": ["today", "rain", "is", "heavy"],
+        "answer": ["today", "rain", "is", "heavy"]
     },
     {
         "id": 10,
         "type": "multiple_choice",
-        "question": "Đâu là ngôn ngữ lập trình hướng đối tượng?",
+        "question": "Which of the following is an object-oriented programming language?",
         "options": ["HTML", "CSS", "JavaScript", "SQL"],
         "answer": "JavaScript"
     }
 ]
+
 
 def get_random_question():
     """Lấy một câu hỏi ngẫu nhiên từ danh sách"""

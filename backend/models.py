@@ -16,7 +16,7 @@ class Answer(BaseModel):
     answer: Union[str, List[str]]  # Câu trả lời có thể là chuỗi hoặc danh sách
 
 class CheckResult(BaseModel):
-    """Model cho kết quả kiểm tra"""
+    """Model cho kết quả kiểm tra của 1 câu hỏi"""
     correct: bool
     explanation: Optional[str] = None
     correct_answer: Union[str, List[str]]
@@ -31,4 +31,4 @@ class ExamResult(BaseModel):
     total_questions: int
     correct_answers: int
     score: float  # Tỉ lệ đúng (0-100%)
-    details: List[Dict[str, Any]]  # Chi tiết từng câu hỏi 
+    details: List[Dict[str, Any]]  # Chi tiết từng câu hỏi (id, đúng/sai, lời giải thích, đáp án đúng)
