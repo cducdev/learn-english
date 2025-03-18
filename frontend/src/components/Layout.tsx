@@ -13,7 +13,7 @@ const Layout: React.FC = () => {
               to="/"
               className="text-2xl font-bold text-white uppercase tracking-wide hover:text-blue-200 transition duration-300 "
             >
-              Hệ Thống Kiểm Tra Kiến Thức
+              SpeakQuest
             </NavLink>
           </div>
 
@@ -31,7 +31,7 @@ const Layout: React.FC = () => {
                     }`
                   }
                 >
-                  Kiểm Tra
+                  Exam
                 </NavLink>
               </li>
               <li>
@@ -45,7 +45,7 @@ const Layout: React.FC = () => {
                     }`
                   }
                 >
-                  Luyện Tập
+                  Practice
                 </NavLink>
               </li>
               <li>
@@ -59,7 +59,7 @@ const Layout: React.FC = () => {
                     }`
                   }
                 >
-                  Giới Thiệu
+                  About
                 </NavLink>
               </li>
             </ul>

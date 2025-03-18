@@ -5,10 +5,9 @@ import QuestionComponent from "../components/Question";
 import MarkdownRenderer from "../components/MarkdownRenderer";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faVolumeHigh, faSpinner } from "@fortawesome/free-solid-svg-icons"; // Thêm faSpinner cho loading
 
 const Practice: React.FC = () => {
-  // Khởi tạo state từ localStorage với key "wrongQuestions"
   const [practiceQuestions, setPracticeQuestions] = useState<Question[]>(() => {
     const stored = localStorage.getItem("wrongQuestions");
     if (stored) {
@@ -25,6 +24,7 @@ const Practice: React.FC = () => {
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string | string[] }>({});
   const [checked, setChecked] = useState<{ [key: number]: boolean }>({});
   const [explanations, setExplanations] = useState<{ [key: number]: string }>({});
+  const [loadingChecks, setLoadingChecks] = useState<{ [key: number]: boolean }>({}); // State mới để theo dõi loading cho từng câu hỏi
 
   const handleAnswerChange = (questionId: number, answer: string | string[]) => {
     if (!checked[questionId]) {
@@ -36,8 +36,12 @@ const Practice: React.FC = () => {
   };
 
   const fetchExplanation = async (questionId: number) => {
+    setLoadingChecks((prev) => ({ ...prev, [questionId]: true })); // Bắt đầu loading cho câu hỏi cụ thể
     const question = practiceQuestions.find((q) => q.id === questionId);
-    if (!question) return;
+    if (!question) {
+      setLoadingChecks((prev) => ({ ...prev, [questionId]: false }));
+      return;
+    }
     const answerObj = {
       question_id: questionId,
       answer: question.answer,
@@ -54,6 +58,8 @@ const Practice: React.FC = () => {
       }));
     } catch (error) {
       console.error("Error fetching explanation", error);
+    } finally {
+      setLoadingChecks((prev) => ({ ...prev, [questionId]: false })); // Dừng loading dù thành công hay thất bại
     }
   };
 
@@ -74,7 +80,6 @@ const Practice: React.FC = () => {
   const removeQuestion = (questionId: number) => {
     const updated = practiceQuestions.filter((q) => q.id !== questionId);
     setPracticeQuestions(updated);
-    // Cập nhật lại localStorage với danh sách đã xoá
     localStorage.setItem("wrongQuestions", JSON.stringify(updated));
 
     const { [questionId]: removedChecked, ...restChecked } = checked;
@@ -124,9 +129,15 @@ const Practice: React.FC = () => {
                 {!checked[question.id] ? (
                   <button
                     onClick={() => fetchExplanation(question.id)}
-                    className="bg-green-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+                    disabled={loadingChecks[question.id]} // Disable nút khi đang loading
+                    className={`bg-green-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300 flex items-center justify-center w-24 ${
+                      loadingChecks[question.id] ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   >
-                    Check
+                    {loadingChecks[question.id] ? (
+                      <FontAwesomeIcon icon={faSpinner} className="animate-spin mr-2" />
+                    ) : null}
+                    {loadingChecks[question.id] ? "Loading..." : "Check"}
                   </button>
                 ) : (
                   <div className="mt-3 bg-gray-100 p-4 rounded-lg">

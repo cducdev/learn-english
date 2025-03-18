@@ -6,7 +6,7 @@ import QuestionComponent from "../components/Question";
 import MarkdownRenderer from "../components/MarkdownRenderer";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { faVolumeHigh, faSpinner } from "@fortawesome/free-solid-svg-icons"; // Thêm faSpinner cho loading
 
 const Exam: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -18,13 +18,14 @@ const Exam: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [loading, setLoading] = useState(false);
+  const [loadingExplanations, setLoadingExplanations] = useState<{ [key: number]: boolean }>({}); // State mới để theo dõi loading cho từng câu hỏi
 
   const startExam = async () => {
     setLoading(true);
     const examRequest = { num_questions: numQuestions };
     const examQuestions = await generateExam(examRequest);
     setQuestions(examQuestions);
-    setTimeLeft(numQuestions * 60); // 60 giây cho mỗi câu
+    setTimeLeft(numQuestions * 60);
     setIsStarted(true);
     setLoading(false);
     setIsSubmitted(false);
@@ -62,10 +63,7 @@ const Exam: React.FC = () => {
     setResults(checkResults);
     setIsSubmitted(true);
 
-    // Lọc ra các câu hỏi sai
     const wrongs = questions.filter((_question, index) => !checkResults[index].correct);
-
-    // Lưu câu hỏi sai vào localStorage nếu chưa tồn tại (kiểm tra theo id)
     const storedWrongQuestions = localStorage.getItem("wrongQuestions");
     let wrongQuestionsList: Question[] = storedWrongQuestions ? JSON.parse(storedWrongQuestions) : [];
     wrongs.forEach((question) => {
@@ -77,17 +75,27 @@ const Exam: React.FC = () => {
   };
 
   const fetchExplanation = async (questionId: number) => {
+    setLoadingExplanations((prev) => ({ ...prev, [questionId]: true })); // Bắt đầu loading cho câu hỏi cụ thể
     const question = questions.find((q) => q.id === questionId);
-    if (!question) return;
+    if (!question) {
+      setLoadingExplanations((prev) => ({ ...prev, [questionId]: false }));
+      return;
+    }
     const answer: Answer = {
       question_id: questionId,
       answer: question.answer,
     };
-    const response = await axios.post("http://localhost:8000/get-explanation", answer);
-    setExplanations((prev) => ({
-      ...prev,
-      [questionId]: response.data.explanation,
-    }));
+    try {
+      const response = await axios.post("http://localhost:8000/get-explanation", answer);
+      setExplanations((prev) => ({
+        ...prev,
+        [questionId]: response.data.explanation,
+      }));
+    } catch (error) {
+      console.error("Error fetching explanation:", error);
+    } finally {
+      setLoadingExplanations((prev) => ({ ...prev, [questionId]: false })); // Dừng loading dù thành công hay thất bại
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -166,7 +174,7 @@ const Exam: React.FC = () => {
                 <h3 className="text-lg font-bold">{question.question}</h3>
                 <button
                   onClick={() => handleSpeakQuestion(question)}
-                  className=" cursor-pointer text-blue-600 hover:text-blue-800 focus:outline-none"
+                  className="cursor-pointer text-blue-600 hover:text-blue-800 focus:outline-none"
                   aria-label="Read question aloud"
                 >
                   <FontAwesomeIcon icon={faVolumeHigh} />
@@ -183,9 +191,15 @@ const Exam: React.FC = () => {
                 <div className="mt-4">
                   <button
                     onClick={() => fetchExplanation(question.id)}
-                    className=" cursor-pointer bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-300"
+                    disabled={loadingExplanations[question.id]} // Disable nút khi đang loading
+                    className={`cursor-pointer bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-300 flex items-center justify-center w-32 ${
+                      loadingExplanations[question.id] ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   >
-                    Explanation
+                    {loadingExplanations[question.id] ? (
+                      <FontAwesomeIcon icon={faSpinner} className="animate-spin mr-2" />
+                    ) : null}
+                    {loadingExplanations[question.id] ? "Loading..." : "Explanation"}
                   </button>
                   {explanations[question.id] && (
                     <div className="mt-3 bg-gray-100 p-4 rounded-lg">
