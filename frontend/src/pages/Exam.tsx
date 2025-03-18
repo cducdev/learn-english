@@ -5,6 +5,8 @@ import { generateExam, checkAnswer } from "../services/api";
 import QuestionComponent from "../components/Question";
 import MarkdownRenderer from "../components/MarkdownRenderer";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 
 const Exam: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -167,20 +169,7 @@ const Exam: React.FC = () => {
                   className=" cursor-pointer text-blue-600 hover:text-blue-800 focus:outline-none"
                   aria-label="Read question aloud"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0L5.586 15z"
-                    />
-                  </svg>
+                  <FontAwesomeIcon icon={faVolumeHigh} />
                 </button>
               </div>
               <QuestionComponent
