@@ -89,8 +89,8 @@ uvicorn main:app --reload
 ### 5.2. **Chạy Frontend**
 ```bash
 cd frontend
-pip install -r requirements.txt
-streamlit run app.py
+yarn
+yarn dev
 ```
 
 ---
