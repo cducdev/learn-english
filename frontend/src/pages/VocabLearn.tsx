@@ -41,7 +41,7 @@ const VocabLearn: React.FC = () => {
     if (!isSubmitted) {
       setUserAnswers((prev) => ({
         ...prev,
-        [word]: answer.trim().toLowerCase(),
+        [word]: answer.toLowerCase(),
       }));
     }
   };

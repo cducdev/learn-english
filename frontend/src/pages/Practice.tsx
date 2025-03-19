@@ -74,9 +74,10 @@ const Practice: React.FC = () => {
 
   const handleAnswerChangeVocabs = (word: string, answer: string) => {
     if (!checkedVocabs[word]) {
+      // Chỉ trim khoảng trắng ở đầu và cuối, không loại bỏ khoảng trắng giữa các từ
       setUserAnswersVocabs((prev) => ({
         ...prev,
-        [word]: answer.trim().toLowerCase(),
+        [word]: answer.toLowerCase(),
       }));
     }
   };
@@ -141,7 +142,7 @@ const Practice: React.FC = () => {
       return;
     }
     const recognition = new SpeechRecognition();
-    recognition.lang = isSwapped ? "en-US" : "vi-VN"; // Anh nếu Việt → Anh, Việt nếu Anh → Việt
+    recognition.lang = isSwapped ? "en-US" : "vi-VN";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
@@ -167,7 +168,7 @@ const Practice: React.FC = () => {
       return;
     }
     const recognition = new SpeechRecognition();
-    recognition.lang = "en-US"; // Giả sử câu hỏi bằng tiếng Anh
+    recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
@@ -339,83 +340,89 @@ const Practice: React.FC = () => {
             </h1>
             <div className="space-y-6 md:space-y-8">
               {practiceVocabs.length > 0 ? (
-                practiceVocabs.map((vocab) => (
-                  <div key={vocab.english + vocab.isSwapped} className="p-4 md:p-6 rounded-lg shadow-md bg-white">
-                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4">
-                      <h3 className="text-base md:text-lg font-bold">
-                        {vocab.isSwapped ? vocab.vietnamese[0] : vocab.english}
-                      </h3>
-                      <div className="flex items-center space-x-2 mt-2 md:mt-0">
-                        <button
-                          onClick={() => handleSpeakVocab(vocab)}
-                          className="text-blue-600 hover:text-blue-800 focus:outline-none cursor-pointer"
-                          aria-label="Read vocab aloud"
-                        >
-                          <FontAwesomeIcon icon={faVolumeHigh} />
-                        </button>
-                        <button
-                          onClick={() => removeVocab(vocab.english)}
-                          className="text-red-600 hover:text-red-800 focus:outline-none cursor-pointer"
-                          title="Remove this vocab"
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-4">
-                      <div className="w-full md:w-1/3 text-sm md:text-base text-gray-600">{vocab.pos}</div>
-                      <div className="w-full md:w-2/3 flex items-center space-x-2">
-                        <input
-                          type="text"
-                          value={userAnswersVocabs[vocab.english] || ""}
-                          onChange={(e) => handleAnswerChangeVocabs(vocab.english, e.target.value)}
-                          disabled={!!checkedVocabs[vocab.english]}
-                          className={`w-full p-2 border rounded-lg text-sm md:text-base ${
-                            checkedVocabs[vocab.english]
-                              ? (vocab.isSwapped
-                                  ? [vocab.english.toLowerCase()]
-                                  : vocab.vietnamese.map((v) => v.toLowerCase())
-                                ).includes(userAnswersVocabs[vocab.english]?.toLowerCase() || "")
-                                ? "border-green-500 bg-green-50"
-                                : "border-red-500 bg-red-50"
-                              : "border-gray-300"
-                          }`}
-                          placeholder="Enter translation here"
-                        />
-                        <button
-                          onClick={() => handleVoiceInputVocab(vocab.english, vocab.isSwapped)}
-                          className="text-blue-600 hover:text-blue-800 cursor-pointer"
-                          disabled={!!checkedVocabs[vocab.english]}
-                          aria-label="Speak answer"
-                        >
-                          <FontAwesomeIcon icon={faMicrophone} />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="mt-4">
-                      {!checkedVocabs[vocab.english] ? (
-                        <button
-                          onClick={() => checkVocabAnswer(vocab.english)}
-                          className="bg-green-600 text-white cursor-pointer px-3 py-1 md:px-4 md:py-2 rounded-lg hover:bg-green-700 transition duration-300 w-20 md:w-24 text-sm md:text-base"
-                        >
-                          Check
-                        </button>
-                      ) : (
-                        <div className="mt-3 bg-gray-100 p-3 md:p-4 rounded-lg">
-                          <p className="text-sm md:text-base">
-                            <strong>Explanation:</strong> {vocab.explanation}
-                          </p>
-                          <p className="text-sm md:text-base">
-                            <strong>Pronunciation:</strong> {vocab.pronunciation}
-                          </p>
-                          <p className="text-sm md:text-base">
-                            <strong>Accepted Answers:</strong> {vocab.vietnamese.join(", ")}
-                          </p>
+                practiceVocabs.map((vocab) => {
+                  // Kiểm tra đáp án có khớp với cụm từ không
+                  const userAnswer = userAnswersVocabs[vocab.english]?.toLowerCase() || "";
+                  const correctAnswers = vocab.isSwapped
+                    ? [vocab.english.toLowerCase()]
+                    : vocab.vietnamese.map((v) => v.toLowerCase());
+                  const isCorrect = correctAnswers.includes(userAnswer);
+
+                  return (
+                    <div key={vocab.english + vocab.isSwapped} className="p-4 md:p-6 rounded-lg shadow-md bg-white">
+                      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4">
+                        <h3 className="text-base md:text-lg font-bold">
+                          {vocab.isSwapped ? vocab.vietnamese[0] : vocab.english}
+                        </h3>
+                        <div className="flex items-center space-x-2 mt-2 md:mt-0">
+                          <button
+                            onClick={() => handleSpeakVocab(vocab)}
+                            className="text-blue-600 hover:text-blue-800 focus:outline-none cursor-pointer"
+                            aria-label="Read vocab aloud"
+                          >
+                            <FontAwesomeIcon icon={faVolumeHigh} />
+                          </button>
+                          <button
+                            onClick={() => removeVocab(vocab.english)}
+                            className="text-red-600 hover:text-red-800 focus:outline-none cursor-pointer"
+                            title="Remove this vocab"
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </button>
                         </div>
-                      )}
+                      </div>
+                      <div className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-4">
+                        <div className="w-full md:w-1/3 text-sm md:text-base text-gray-600">{vocab.pos}</div>
+                        <div className="w-full md:w-2/3 flex items-center space-x-2">
+                          <input
+                            type="text"
+                            value={userAnswersVocabs[vocab.english] || ""}
+                            onChange={(e) => handleAnswerChangeVocabs(vocab.english, e.target.value)}
+                            disabled={!!checkedVocabs[vocab.english]}
+                            className={`w-full p-2 border rounded-lg text-sm md:text-base ${
+                              checkedVocabs[vocab.english]
+                                ? isCorrect
+                                  ? "border-green-500 bg-green-50"
+                                  : "border-red-500 bg-red-50"
+                                : "border-gray-300"
+                            }`}
+                            placeholder="Enter translation here"
+                          />
+                          <button
+                            onClick={() => handleVoiceInputVocab(vocab.english, vocab.isSwapped)}
+                            className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                            disabled={!!checkedVocabs[vocab.english]}
+                            aria-label="Speak answer"
+                          >
+                            <FontAwesomeIcon icon={faMicrophone} />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="mt-4">
+                        {!checkedVocabs[vocab.english] ? (
+                          <button
+                            onClick={() => checkVocabAnswer(vocab.english)}
+                            className="bg-green-600 text-white cursor-pointer px-3 py-1 md:px-4 md:py-2 rounded-lg hover:bg-green-700 transition duration-300 w-20 md:w-24 text-sm md:text-base"
+                          >
+                            Check
+                          </button>
+                        ) : (
+                          <div className="mt-3 bg-gray-100 p-3 md:p-4 rounded-lg">
+                            <p className="text-sm md:text-base">
+                              <strong>Explanation:</strong> {vocab.explanation}
+                            </p>
+                            <p className="text-sm md:text-base">
+                              <strong>Pronunciation:</strong> {vocab.pronunciation}
+                            </p>
+                            <p className="text-sm md:text-base">
+                              <strong>Accepted Answers:</strong> {vocab.vietnamese.join(", ")}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <p className="text-center text-gray-600 text-base md:text-lg">
                   No wrong vocabularies available for practice.
