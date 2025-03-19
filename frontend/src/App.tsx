@@ -6,6 +6,7 @@ import Exam from "./pages/Exam";
 import Practice from "./pages/Practice";
 import About from "./pages/About";
 import Welcome from "./pages/Welcome";
+import VocabLearn from "./pages/VocabLearn";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,6 +19,7 @@ const App: React.FC = () => {
           <Route path="/exam" element={<Exam />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="/about" element={<About />} />
+          <Route path="/vocab-learn" element={<VocabLearn />} />
         </Route>
       </Routes>
       <ToastContainer />

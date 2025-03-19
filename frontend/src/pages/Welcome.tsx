@@ -22,11 +22,18 @@ const Welcome: React.FC = () => {
           Practice
         </Link>
         <Link
+          to="/vocab-learn"
+          className="bg-white text-blue-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-100 transition duration-300 transform hover:scale-105"
+        >
+          Vocabulary Learn
+        </Link>
+        <Link
           to="/about"
           className="bg-white text-blue-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-100 transition duration-300 transform hover:scale-105"
         >
           About
         </Link>
+
       </div>
     </div>
   );

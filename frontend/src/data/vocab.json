@@ -1,0 +1,689 @@
+[
+    {
+        "english": "jump",
+        "vietnamese": [
+            "nhảy",
+            "nhảy lên",
+            "bật nhảy",
+            "vọt"
+        ],
+        "pos": "verb",
+        "pronunciation": "/dʒʌmp/",
+        "explanation": "Từ 'jump' là động từ, mô tả hành động di chuyển nhanh lên khỏi mặt đất bằng chân."
+    },
+    {
+        "english": "house",
+        "vietnamese": [
+            "nhà",
+            "căn nhà",
+            "ngôi nhà",
+            "nhà cửa"
+        ],
+        "pos": "noun",
+        "pronunciation": "/haʊs/",
+        "explanation": "Từ 'house' là danh từ, chỉ nơi ở hoặc công trình kiến trúc dùng để sinh sống."
+    },
+    {
+        "english": "car",
+        "vietnamese": [
+            "xe hơi",
+            "ô tô",
+            "xe ô tô",
+            "xe con"
+        ],
+        "pos": "noun",
+        "pronunciation": "/kɑːr/",
+        "explanation": "Từ 'car' là danh từ, chỉ phương tiện giao thông cá nhân chạy bằng động cơ."
+    },
+    {
+        "english": "teacher",
+        "vietnamese": [
+            "giáo viên",
+            "thầy giáo",
+            "cô giáo",
+            "giảng viên"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈtiː.tʃər/",
+        "explanation": "Từ 'teacher' là danh từ, chỉ người giảng dạy, truyền đạt kiến thức."
+    },
+    {
+        "english": "strong",
+        "vietnamese": [
+            "mạnh",
+            "khỏe",
+            "cường tráng",
+            "rắn rỏi"
+        ],
+        "pos": "adjective",
+        "pronunciation": "/strɒŋ/",
+        "explanation": "Từ 'strong' là tính từ, mô tả sức mạnh thể chất hoặc tinh thần."
+    },
+    {
+        "english": "blue",
+        "vietnamese": [
+            "xanh",
+            "xanh dương",
+            "màu xanh",
+            "xanh nước biển"
+        ],
+        "pos": "adjective",
+        "pronunciation": "/bluː/",
+        "explanation": "Từ 'blue' là tính từ, chỉ màu sắc xanh dương."
+    },
+    {
+        "english": "love",
+        "vietnamese": [
+            "yêu",
+            "thương",
+            "mến",
+            "tình yêu"
+        ],
+        "pos": "verb/noun",
+        "pronunciation": "/lʌv/",
+        "explanation": "Từ 'love' vừa là danh từ (tình yêu) vừa là động từ (yêu thương, thích)."
+    },
+    {
+        "english": "light",
+        "vietnamese": [
+            "ánh sáng",
+            "đèn",
+            "sáng",
+            "nhẹ"
+        ],
+        "pos": "noun/adjective",
+        "pronunciation": "/laɪt/",
+        "explanation": "Từ 'light' có thể là danh từ (ánh sáng), tính từ (nhẹ, sáng) hoặc động từ (thắp sáng)."
+    },
+    {
+        "english": "run",
+        "vietnamese": [
+            "chạy",
+            "vận hành",
+            "quản lý"
+        ],
+        "pos": "verb",
+        "pronunciation": "/rʌn/",
+        "explanation": "Từ 'run' có nghĩa di chuyển nhanh bằng chân hoặc điều hành, quản lý một hệ thống."
+    },
+    {
+        "english": "friend",
+        "vietnamese": [
+            "bạn",
+            "bạn bè",
+            "người bạn",
+            "bằng hữu"
+        ],
+        "pos": "noun",
+        "pronunciation": "/frɛnd/",
+        "explanation": "Từ 'friend' là danh từ, chỉ người có quan hệ thân thiết, gắn bó."
+    },
+    {
+        "english": "smart",
+        "vietnamese": [
+            "thông minh",
+            "lanh lợi",
+            "nhanh trí",
+            "sáng dạ"
+        ],
+        "pos": "adjective",
+        "pronunciation": "/smɑːrt/",
+        "explanation": "Từ 'smart' là tính từ, mô tả người có trí thông minh, nhạy bén."
+    },
+    {
+        "english": "animal",
+        "vietnamese": [
+            "động vật",
+            "con vật",
+            "thú"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈæn.ɪ.məl/",
+        "explanation": "Từ 'animal' là danh từ, chỉ sinh vật không phải con người, thuộc giới động vật."
+    },
+    {
+        "english": "sun",
+        "vietnamese": [
+            "mặt trời",
+            "thái dương",
+            "ông mặt trời"
+        ],
+        "pos": "noun",
+        "pronunciation": "/sʌn/",
+        "explanation": "Từ 'sun' là danh từ, chỉ ngôi sao trung tâm của hệ Mặt Trời, cung cấp ánh sáng và nhiệt lượng."
+    },
+    {
+        "english": "moon",
+        "vietnamese": [
+            "mặt trăng",
+            "trăng",
+            "chị Hằng"
+        ],
+        "pos": "noun",
+        "pronunciation": "/muːn/",
+        "explanation": "Từ 'moon' là danh từ, chỉ vệ tinh tự nhiên của Trái Đất."
+    },
+    {
+        "english": "tall",
+        "vietnamese": [
+            "cao",
+            "cao ráo",
+            "cao lớn"
+        ],
+        "pos": "adjective",
+        "pronunciation": "/tɔːl/",
+        "explanation": "Từ 'tall' là tính từ, mô tả chiều cao của một người hoặc vật."
+    },
+    {
+        "english": "write",
+        "vietnamese": [
+            "viết",
+            "ghi",
+            "ghi chép",
+            "biên soạn"
+        ],
+        "pos": "verb",
+        "pronunciation": "/raɪt/",
+        "explanation": "Từ 'write' là động từ, chỉ hành động tạo ra chữ viết, văn bản."
+    },
+    {
+        "english": "doctor",
+        "vietnamese": [
+            "bác sĩ",
+            "thầy thuốc",
+            "y sĩ"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈdɒk.tər/",
+        "explanation": "Từ 'doctor' là danh từ, chỉ người làm công việc chữa bệnh, chăm sóc sức khỏe."
+    },
+    {
+        "english": "music",
+        "vietnamese": [
+            "âm nhạc",
+            "nhạc",
+            "giai điệu"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈmjuː.zɪk/",
+        "explanation": "Từ 'music' là danh từ, chỉ nghệ thuật hoặc âm thanh có nhịp điệu."
+    },
+    {
+        "english": "chair",
+        "vietnamese": [
+            "ghế",
+            "cái ghế",
+            "ghế ngồi"
+        ],
+        "pos": "noun",
+        "pronunciation": "/tʃɛr/",
+        "explanation": "Từ 'chair' là danh từ, chỉ đồ vật dùng để ngồi."
+    },
+    {
+        "english": "computer",
+        "vietnamese": [
+            "máy tính",
+            "máy vi tính",
+            "computer"
+        ],
+        "pos": "noun",
+        "pronunciation": "/kəmˈpjuː.tər/",
+        "explanation": "Từ 'computer' là danh từ, chỉ thiết bị điện tử dùng để xử lý thông tin."
+    },
+    {
+        "english": "park",
+        "vietnamese": [
+            "công viên",
+            "vườn hoa",
+            "bãi đỗ xe"
+        ],
+        "pos": "noun",
+        "pronunciation": "/pɑːrk/",
+        "explanation": "Từ 'park' là danh từ, chỉ khu vực có cây xanh, hoặc có thể chỉ bãi đỗ xe."
+    },
+    {
+        "english": "travel",
+        "vietnamese": [
+            "du lịch",
+            "đi lại",
+            "di chuyển"
+        ],
+        "pos": "verb",
+        "pronunciation": "/ˈtræv.əl/",
+        "explanation": "Từ 'travel' là động từ, chỉ hành động di chuyển từ nơi này đến nơi khác, thường để tham quan."
+    },
+    {
+        "english": "water",
+        "vietnamese": [
+            "nước",
+            "nước uống",
+            "nước lọc"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈwɔː.tər/",
+        "explanation": "Từ 'water' là danh từ, chỉ chất lỏng không màu, không mùi cần thiết cho sự sống."
+    },
+    {
+        "english": "fire",
+        "vietnamese": [
+            "lửa",
+            "ngọn lửa",
+            "hỏa hoạn"
+        ],
+        "pos": "noun",
+        "pronunciation": "/faɪər/",
+        "explanation": "Từ 'fire' là danh từ, chỉ ngọn lửa hoặc hiện tượng cháy."
+    },
+    {
+        "english": "rain",
+        "vietnamese": [
+            "mưa",
+            "cơn mưa",
+            "trận mưa"
+        ],
+        "pos": "noun/verb",
+        "pronunciation": "/reɪn/",
+        "explanation": "Từ 'rain' vừa là danh từ (mưa) vừa là động từ (mưa rơi)."
+    },
+    {
+        "english": "cloud",
+        "vietnamese": [
+            "mây",
+            "đám mây"
+        ],
+        "pos": "noun",
+        "pronunciation": "/klaʊd/",
+        "explanation": "Từ 'cloud' là danh từ, chỉ tập hợp hơi nước trong không khí tạo thành đám mây."
+    },
+    {
+        "english": "wind",
+        "vietnamese": [
+            "gió",
+            "cơn gió",
+            "luồng gió"
+        ],
+        "pos": "noun",
+        "pronunciation": "/wɪnd/",
+        "explanation": "Từ 'wind' là danh từ, chỉ luồng không khí di chuyển trong khí quyển."
+    },
+    {
+        "english": "mountain",
+        "vietnamese": [
+            "núi",
+            "ngọn núi",
+            "dãy núi"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈmaʊn.tɪn/",
+        "explanation": "Từ 'mountain' là danh từ, chỉ địa hình cao hơn khu vực xung quanh."
+    },
+    {
+        "english": "ocean",
+        "vietnamese": [
+            "đại dương",
+            "biển lớn"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈoʊ.ʃən/",
+        "explanation": "Từ 'ocean' là danh từ, chỉ vùng nước mặn lớn trên Trái Đất."
+    },
+    {
+        "english": "island",
+        "vietnamese": [
+            "đảo",
+            "hòn đảo",
+            "cù lao"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈaɪ.lənd/",
+        "explanation": "Từ 'island' là danh từ, chỉ vùng đất bao quanh bởi nước."
+    },
+    {
+        "english": "forest",
+        "vietnamese": [
+            "rừng",
+            "khu rừng",
+            "rừng cây"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈfɔː.rɪst/",
+        "explanation": "Từ 'forest' là danh từ, chỉ khu vực rộng lớn có nhiều cây cối."
+    },
+    {
+        "english": "river",
+        "vietnamese": [
+            "sông",
+            "dòng sông",
+            "con sông"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈrɪv.ər/",
+        "explanation": "Từ 'river' là danh từ, chỉ dòng nước chảy từ nguồn đến cửa biển hoặc hồ."
+    },
+    {
+        "english": "fish",
+        "vietnamese": [
+            "cá",
+            "con cá"
+        ],
+        "pos": "noun",
+        "pronunciation": "/fɪʃ/",
+        "explanation": "Từ 'fish' là danh từ, chỉ loài động vật sống dưới nước, có vây và mang."
+    },
+    {
+        "english": "bird",
+        "vietnamese": [
+            "chim",
+            "con chim"
+        ],
+        "pos": "noun",
+        "pronunciation": "/bɜːrd/",
+        "explanation": "Từ 'bird' là danh từ, chỉ loài động vật có cánh, thường có khả năng bay."
+    },
+    {
+        "english": "dog",
+        "vietnamese": [
+            "chó",
+            "con chó",
+            "cún"
+        ],
+        "pos": "noun",
+        "pronunciation": "/dɒɡ/",
+        "explanation": "Từ 'dog' là danh từ, chỉ loài vật nuôi trung thành, có bốn chân."
+    },
+    {
+        "english": "cat",
+        "vietnamese": [
+            "mèo",
+            "con mèo"
+        ],
+        "pos": "noun",
+        "pronunciation": "/kæt/",
+        "explanation": "Từ 'cat' là danh từ, chỉ loài động vật nhỏ, có lông mềm và thường được nuôi trong nhà."
+    },
+    {
+        "english": "elephant",
+        "vietnamese": [
+            "voi",
+            "con voi"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈel.ɪ.fənt/",
+        "explanation": "Từ 'elephant' là danh từ, chỉ loài động vật có vú lớn nhất sống trên cạn."
+    },
+    {
+        "english": "banana",
+        "vietnamese": [
+            "chuối",
+            "quả chuối"
+        ],
+        "pos": "noun",
+        "pronunciation": "/bəˈnæn.ə/",
+        "explanation": "Từ 'banana' là danh từ, chỉ loại quả dài, vỏ vàng, bên trong có vị ngọt."
+    },
+    {
+        "english": "grape",
+        "vietnamese": [
+            "nho",
+            "quả nho"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ɡreɪp/",
+        "explanation": "Từ 'grape' là danh từ, chỉ loại quả nhỏ, mọng nước, thường mọc thành chùm."
+    },
+    {
+        "english": "school",
+        "vietnamese": [
+            "trường học",
+            "trường",
+            "nơi học"
+        ],
+        "pos": "noun",
+        "pronunciation": "/skuːl/",
+        "explanation": "Từ 'school' là danh từ, chỉ nơi học tập của học sinh và sinh viên."
+    },
+    {
+        "english": "market",
+        "vietnamese": [
+            "chợ",
+            "khu chợ",
+            "thị trường"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈmɑːr.kɪt/",
+        "explanation": "Từ 'market' là danh từ, chỉ nơi buôn bán hàng hóa hoặc khái niệm thị trường kinh tế."
+    },
+    {
+        "english": "hospital",
+        "vietnamese": [
+            "bệnh viện",
+            "nhà thương"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈhɒs.pɪ.təl/",
+        "explanation": "Từ 'hospital' là danh từ, chỉ cơ sở y tế chuyên khám chữa bệnh."
+    },
+    {
+        "english": "library",
+        "vietnamese": [
+            "thư viện",
+            "kho sách"
+        ],
+        "pos": "noun",
+        "pronunciation": "/ˈlaɪ.brer.i/",
+        "explanation": "Từ 'library' là danh từ, chỉ nơi lưu trữ và cung cấp sách cho mọi người đọc."
+    },
+    {
+        "english": "police",
+        "vietnamese": [
+            "cảnh sát",
+            "công an"
+        ],
+        "pos": "noun",
+        "pronunciation": "/pəˈliːs/",
+        "explanation": "Từ 'police' là danh từ, chỉ lực lượng bảo vệ trật tự và pháp luật."
+    },
+    {
+        "english": "phone",
+        "vietnamese": [
+            "điện thoại",
+            "máy điện thoại"
+        ],
+        "pos": "noun",
+        "pronunciation": "/foʊn/",
+        "explanation": "Từ 'phone' là danh từ, chỉ thiết bị liên lạc bằng âm thanh hoặc tin nhắn."
+    },
+    {
+        "english": "key",
+        "vietnamese": [
+            "chìa khóa",
+            "khóa",
+            "vật mở khóa"
+        ],
+        "pos": "noun",
+        "pronunciation": "/kiː/",
+        "explanation": "Từ 'key' là danh từ, chỉ vật dùng để mở khóa hoặc ẩn dụ về yếu tố quan trọng."
+    },
+    {
+        "english": "door",
+        "vietnamese": ["cửa", "cánh cửa", "cửa ra vào"],
+        "pos": "noun",
+        "pronunciation": "/dɔːr/",
+        "explanation": "Từ 'door' là danh từ, chỉ bộ phận của ngôi nhà, phòng dùng để ra vào."
+    },
+    {
+        "english": "window",
+        "vietnamese": ["cửa sổ", "khung cửa", "ô cửa"],
+        "pos": "noun",
+        "pronunciation": "/ˈwɪn.doʊ/",
+        "explanation": "Từ 'window' là danh từ, chỉ phần mở trên tường nhà để lấy ánh sáng và không khí."
+    },
+    {
+        "english": "table",
+        "vietnamese": ["bàn", "cái bàn"],
+        "pos": "noun",
+        "pronunciation": "/ˈteɪ.bəl/",
+        "explanation": "Từ 'table' là danh từ, chỉ đồ vật có mặt phẳng để làm việc hoặc ăn uống."
+    },
+    {
+        "english": "chair",
+        "vietnamese": ["ghế", "cái ghế"],
+        "pos": "noun",
+        "pronunciation": "/tʃer/",
+        "explanation": "Từ 'chair' là danh từ, chỉ vật dùng để ngồi."
+    },
+    {
+        "english": "bag",
+        "vietnamese": ["túi", "cái túi", "bao"],
+        "pos": "noun",
+        "pronunciation": "/bæɡ/",
+        "explanation": "Từ 'bag' là danh từ, chỉ vật dụng dùng để chứa đồ đạc."
+    },
+    {
+        "english": "pen",
+        "vietnamese": ["bút", "cây bút", "bút viết"],
+        "pos": "noun",
+        "pronunciation": "/pɛn/",
+        "explanation": "Từ 'pen' là danh từ, chỉ dụng cụ dùng để viết."
+    },
+    {
+        "english": "pencil",
+        "vietnamese": ["bút chì", "cây bút chì"],
+        "pos": "noun",
+        "pronunciation": "/ˈpɛn.səl/",
+        "explanation": "Từ 'pencil' là danh từ, chỉ dụng cụ viết có thể tẩy xóa."
+    },
+    {
+        "english": "paper",
+        "vietnamese": ["giấy", "tờ giấy", "báo"],
+        "pos": "noun",
+        "pronunciation": "/ˈpeɪ.pər/",
+        "explanation": "Từ 'paper' là danh từ, chỉ vật liệu mỏng làm từ bột gỗ dùng để viết hoặc in ấn."
+    },
+    {
+        "english": "clock",
+        "vietnamese": ["đồng hồ", "đồng hồ treo tường"],
+        "pos": "noun",
+        "pronunciation": "/klɒk/",
+        "explanation": "Từ 'clock' là danh từ, chỉ thiết bị hiển thị thời gian."
+    },
+    {
+        "english": "watch",
+        "vietnamese": ["đồng hồ đeo tay", "đồng hồ"],
+        "pos": "noun",
+        "pronunciation": "/wɒtʃ/",
+        "explanation": "Từ 'watch' là danh từ, chỉ thiết bị đeo tay dùng để xem giờ."
+    },
+    {
+        "english": "shoes",
+        "vietnamese": ["giày", "đôi giày"],
+        "pos": "noun",
+        "pronunciation": "/ʃuːz/",
+        "explanation": "Từ 'shoes' là danh từ, chỉ vật dụng mang vào chân để bảo vệ và di chuyển."
+    },
+    {
+        "english": "shirt",
+        "vietnamese": ["áo sơ mi", "áo"],
+        "pos": "noun",
+        "pronunciation": "/ʃɜːrt/",
+        "explanation": "Từ 'shirt' là danh từ, chỉ loại áo có tay dài hoặc ngắn, cài nút phía trước."
+    },
+    {
+        "english": "pants",
+        "vietnamese": ["quần", "quần dài"],
+        "pos": "noun",
+        "pronunciation": "/pænts/",
+        "explanation": "Từ 'pants' là danh từ, chỉ loại trang phục mặc ở phần dưới cơ thể."
+    },
+    {
+        "english": "hat",
+        "vietnamese": ["mũ", "cái mũ", "nón"],
+        "pos": "noun",
+        "pronunciation": "/hæt/",
+        "explanation": "Từ 'hat' là danh từ, chỉ vật đội lên đầu để che nắng hoặc làm đẹp."
+    },
+    {
+        "english": "glasses",
+        "vietnamese": ["kính", "kính mắt"],
+        "pos": "noun",
+        "pronunciation": "/ˈɡlæs.ɪz/",
+        "explanation": "Từ 'glasses' là danh từ, chỉ vật đeo trước mắt để hỗ trợ thị lực."
+    },
+    {
+        "english": "ear",
+        "vietnamese": ["tai", "cái tai"],
+        "pos": "noun",
+        "pronunciation": "/ɪər/",
+        "explanation": "Từ 'ear' là danh từ, chỉ bộ phận cơ thể dùng để nghe âm thanh."
+    },
+    {
+        "english": "eye",
+        "vietnamese": ["mắt", "đôi mắt"],
+        "pos": "noun",
+        "pronunciation": "/aɪ/",
+        "explanation": "Từ 'eye' là danh từ, chỉ bộ phận cơ thể dùng để nhìn."
+    },
+    {
+        "english": "nose",
+        "vietnamese": ["mũi", "cái mũi"],
+        "pos": "noun",
+        "pronunciation": "/noʊz/",
+        "explanation": "Từ 'nose' là danh từ, chỉ bộ phận cơ thể dùng để thở và ngửi."
+    },
+    {
+        "english": "mouth",
+        "vietnamese": ["miệng", "cái miệng"],
+        "pos": "noun",
+        "pronunciation": "/maʊθ/",
+        "explanation": "Từ 'mouth' là danh từ, chỉ bộ phận cơ thể dùng để ăn và nói."
+    },
+    {
+        "english": "hand",
+        "vietnamese": ["tay", "bàn tay"],
+        "pos": "noun",
+        "pronunciation": "/hænd/",
+        "explanation": "Từ 'hand' là danh từ, chỉ bộ phận cơ thể dùng để cầm nắm."
+    },
+    {
+        "english": "leg",
+        "vietnamese": ["chân", "cái chân"],
+        "pos": "noun",
+        "pronunciation": "/lɛɡ/",
+        "explanation": "Từ 'leg' là danh từ, chỉ bộ phận cơ thể dùng để đi lại."
+    },
+    {
+        "english": "heart",
+        "vietnamese": ["tim", "trái tim"],
+        "pos": "noun",
+        "pronunciation": "/hɑːrt/",
+        "explanation": "Từ 'heart' là danh từ, chỉ bộ phận cơ thể bơm máu đi khắp cơ thể."
+    },
+    {
+        "english": "food",
+        "vietnamese": ["thức ăn", "đồ ăn", "món ăn"],
+        "pos": "noun",
+        "pronunciation": "/fuːd/",
+        "explanation": "Từ 'food' là danh từ, chỉ những thứ con người ăn để duy trì sự sống."
+    },
+    {
+        "english": "meat",
+        "vietnamese": ["thịt", "thịt động vật"],
+        "pos": "noun",
+        "pronunciation": "/miːt/",
+        "explanation": "Từ 'meat' là danh từ, chỉ phần thịt của động vật dùng làm thực phẩm."
+    },
+    {
+        "english": "vegetable",
+        "vietnamese": ["rau", "rau củ", "cây rau"],
+        "pos": "noun",
+        "pronunciation": "/ˈvɛdʒ.tə.bəl/",
+        "explanation": "Từ 'vegetable' là danh từ, chỉ các loại thực vật dùng làm thực phẩm."
+    },
+    {
+        "english": "sugar",
+        "vietnamese": ["đường", "đường ăn"],
+        "pos": "noun",
+        "pronunciation": "/ˈʃʊɡ.ər/",
+        "explanation": "Từ 'sugar' là danh từ, chỉ chất tạo vị ngọt trong thực phẩm."
+    }
+]

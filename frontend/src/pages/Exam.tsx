@@ -6,7 +6,7 @@ import QuestionComponent from "../components/Question";
 import MarkdownRenderer from "../components/MarkdownRenderer";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVolumeHigh, faSpinner } from "@fortawesome/free-solid-svg-icons"; // Thêm faSpinner cho loading
+import { faVolumeHigh, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const Exam: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -18,7 +18,7 @@ const Exam: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const [loadingExplanations, setLoadingExplanations] = useState<{ [key: number]: boolean }>({}); // State mới để theo dõi loading cho từng câu hỏi
+  const [loadingExplanations, setLoadingExplanations] = useState<{ [key: number]: boolean }>({});
 
   const startExam = async () => {
     setLoading(true);
@@ -57,9 +57,7 @@ const Exam: React.FC = () => {
       answer: userAnswers[question.id] || "",
     }));
 
-    const checkResults = await Promise.all(
-      answers.map((answer) => checkAnswer(answer))
-    );
+    const checkResults = await Promise.all(answers.map((answer) => checkAnswer(answer)));
     setResults(checkResults);
     setIsSubmitted(true);
 
@@ -75,7 +73,7 @@ const Exam: React.FC = () => {
   };
 
   const fetchExplanation = async (questionId: number) => {
-    setLoadingExplanations((prev) => ({ ...prev, [questionId]: true })); // Bắt đầu loading cho câu hỏi cụ thể
+    setLoadingExplanations((prev) => ({ ...prev, [questionId]: true }));
     const question = questions.find((q) => q.id === questionId);
     if (!question) {
       setLoadingExplanations((prev) => ({ ...prev, [questionId]: false }));
@@ -94,7 +92,7 @@ const Exam: React.FC = () => {
     } catch (error) {
       console.error("Error fetching explanation:", error);
     } finally {
-      setLoadingExplanations((prev) => ({ ...prev, [questionId]: false })); // Dừng loading dù thành công hay thất bại
+      setLoadingExplanations((prev) => ({ ...prev, [questionId]: false }));
     }
   };
 
@@ -120,9 +118,9 @@ const Exam: React.FC = () => {
 
   if (!isStarted) {
     return (
-      <div className="h-[calc(100vh-64px)] bg-indigo-100 flex items-center justify-center mt-64px">
-        <div className="bg-white p-10 rounded-2xl shadow-xl max-w-md w-full">
-          <h1 className="text-3xl font-bold text-center text-indigo-800 mb-8">
+      <div className="min-h-[calc(100vh-80px)] bg-indigo-100 flex items-center justify-center">
+        <div className="bg-white p-6 md:p-10 rounded-2xl shadow-xl max-w-md w-full">
+          <h1 className="text-2xl md:text-3xl font-bold text-center text-indigo-800 mb-6 md:mb-8">
             Select Number of Questions
           </h1>
           <div className="flex justify-center space-x-4 mb-6">
@@ -130,7 +128,7 @@ const Exam: React.FC = () => {
               <button
                 key={value}
                 onClick={() => setNumQuestions(value)}
-                className={`w-12 h-12 rounded-full border-2 border-indigo-300 font-bold text-lg flex items-center justify-center cursor-pointer  ${
+                className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-indigo-300 font-bold text-base md:text-lg flex items-center justify-center cursor-pointer ${
                   numQuestions === value ? "bg-indigo-600 text-white" : "bg-white text-indigo-800"
                 }`}
               >
@@ -142,7 +140,7 @@ const Exam: React.FC = () => {
             <button
               onClick={startExam}
               disabled={loading}
-              className="bg-indigo-600 cursor-pointer text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md disabled:opacity-50 text-lg font-semibold"
+              className="bg-indigo-600 cursor-pointer text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md disabled:opacity-50 text-base md:text-lg font-semibold"
             >
               {loading ? "Loading..." : "Start Exam"}
             </button>
@@ -153,16 +151,16 @@ const Exam: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto my-8 flex justify-center h-[calc(100vh-64px)] mt-64px">
-      <div className="w-3/4 pr-8">
-        <h1 className="text-3xl font-bold text-indigo-800 mb-8 text-center">
+    <div className="w-full max-w-6xl mx-auto my-8 flex flex-col md:flex-row min-h-[calc(100vh-80px)] px-4">
+      <div className="w-full md:w-3/4 pr-0 md:pr-8 overflow-y-auto">
+        <h1 className="text-2xl md:text-3xl font-bold text-indigo-800 mb-6 md:mb-8 text-center">
           Exam ({questions.length} Questions)
         </h1>
-        <div className="space-y-8 max-h-[calc(100vh-160px)] overflow-y-auto">
+        <div className="space-y-6 md:space-y-8">
           {questions.map((question, index) => (
             <div
               key={question.id}
-              className={`p-6 rounded-lg shadow-md ${
+              className={`p-4 md:p-6 rounded-lg shadow-md ${
                 isSubmitted
                   ? results[index]?.correct
                     ? "bg-green-50"
@@ -170,11 +168,11 @@ const Exam: React.FC = () => {
                   : "bg-white"
               }`}
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold">{question.question}</h3>
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4">
+                <h3 className="text-base md:text-lg font-bold">{question.question}</h3>
                 <button
                   onClick={() => handleSpeakQuestion(question)}
-                  className="cursor-pointer text-blue-600 hover:text-blue-800 focus:outline-none"
+                  className="cursor-pointer text-blue-600 hover:text-blue-800 focus:outline-none mt-2 md:mt-0"
                   aria-label="Read question aloud"
                 >
                   <FontAwesomeIcon icon={faVolumeHigh} />
@@ -191,8 +189,8 @@ const Exam: React.FC = () => {
                 <div className="mt-4">
                   <button
                     onClick={() => fetchExplanation(question.id)}
-                    disabled={loadingExplanations[question.id]} // Disable nút khi đang loading
-                    className={`cursor-pointer bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-300 flex items-center justify-center w-32 ${
+                    disabled={loadingExplanations[question.id]}
+                    className={`cursor-pointer bg-gray-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-lg hover:bg-gray-700 transition duration-300 flex items-center justify-center w-28 md:w-32 text-sm md:text-base ${
                       loadingExplanations[question.id] ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                   >
@@ -202,9 +200,9 @@ const Exam: React.FC = () => {
                     {loadingExplanations[question.id] ? "Loading..." : "Explanation"}
                   </button>
                   {explanations[question.id] && (
-                    <div className="mt-3 bg-gray-100 p-4 rounded-lg">
+                    <div className="mt-3 bg-gray-100 p-3 md:p-4 rounded-lg">
                       <details>
-                        <summary className="cursor-pointer text-gray-700 font-semibold">
+                        <summary className="cursor-pointer text-gray-700 font-semibold text-sm md:text-base">
                           View Explanation
                         </summary>
                         <MarkdownRenderer content={explanations[question.id]} />
@@ -218,29 +216,28 @@ const Exam: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-1/4">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-indigo-800 mb-4 text-center">Info</h2>
-          <p className="text-lg">Time Left: {formatTime(timeLeft)}</p>
-          <p className="text-lg">
+      <div className="w-full md:w-1/4 mt-6 md:mt-0 md:fixed md:right-0 md:top-20 md:h-[calc(100vh-80px)] md:pr-8">
+        <div className="bg-white p-4 md:p-6 rounded-lg shadow-md flex flex-col">
+          <h2 className="text-lg md:text-xl font-semibold text-indigo-800 mb-4 text-center">Info</h2>
+          <p className="text-sm md:text-lg">Time Left: {formatTime(timeLeft)}</p>
+          <p className="text-sm md:text-lg">
             Answered: {Object.keys(userAnswers).length}/{questions.length}
           </p>
           {!isSubmitted && (
             <button
               onClick={handleSubmitExam}
-              className="cursor-pointer mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300 shadow-md w-full"
+              className="cursor-pointer mt-4 md:mt-6 w-full bg-green-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-lg hover:bg-green-700 transition duration-300 shadow-md text-sm md:text-lg font-semibold"
             >
               Submit Exam
             </button>
           )}
-
           {isSubmitted && (
             <div className="mt-4">
-              <h3 className="text-lg font-semibold text-green-700">Results</h3>
-              <p>
+              <h3 className="text-base md:text-lg font-semibold text-green-700">Results</h3>
+              <p className="text-sm md:text-base">
                 Correct: {results.filter((r) => r.correct).length} / {questions.length}
               </p>
-              <p>
+              <p className="text-sm md:text-base">
                 Score: {((results.filter((r) => r.correct).length / questions.length) * 100).toFixed(2)}%
               </p>
             </div>
