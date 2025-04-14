@@ -231,13 +231,13 @@ const Practice: React.FC = () => {
           <div className="flex justify-center space-x-4">
             <button
               onClick={() => handleSectionSelect("exam")}
-              className="bg-indigo-600 text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md text-base md:text-lg font-semibold"
+              className="cursor-pointer bg-indigo-600 text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md text-base md:text-lg font-semibold"
             >
               Exam Questions ({practiceQuestions.length})
             </button>
             <button
               onClick={() => handleSectionSelect("vocab")}
-              className="bg-indigo-600 text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md text-base md:text-lg font-semibold"
+              className="cursor-pointer bg-indigo-600 text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md text-base md:text-lg font-semibold"
             >
               Vocabulary ({practiceVocabs.length})
             </button>

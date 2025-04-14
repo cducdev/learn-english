@@ -15,17 +15,17 @@ interface Vocabulary {
 
 interface WrongVocab extends Vocabulary {
   isSwapped: boolean;
-  timestamp: number; // Thêm timestamp để sắp xếp
+  timestamp: number;
 }
 
 const VocabLearn: React.FC = () => {
   const [vocabList, setVocabList] = useState<Vocabulary[]>([]);
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
   const [numVocabs, setNumVocabs] = useState<number>(5);
+  const [isSwapped, setIsSwapped] = useState(false); // Chế độ học: false = Eng → VN, true = VN → Eng
   const [isStarted, setIsStarted] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [results, setResults] = useState<{ [key: string]: boolean }>({});
-  const [isSwapped, setIsSwapped] = useState(false);
 
   const startLearning = () => {
     const shuffled = [...vocabData].sort(() => 0.5 - Math.random());
@@ -57,7 +57,7 @@ const VocabLearn: React.FC = () => {
       const isCorrect = correctAnswers.includes(userAnswers[vocab.english]?.toLowerCase() || "");
       newResults[vocab.english] = isCorrect;
       if (!isCorrect) {
-        wrongVocabs.push({ ...vocab, isSwapped, timestamp: Date.now() }); // Thêm timestamp
+        wrongVocabs.push({ ...vocab, isSwapped, timestamp: Date.now() });
       }
     });
 
@@ -72,13 +72,6 @@ const VocabLearn: React.FC = () => {
 
     setResults(newResults);
     setIsSubmitted(true);
-  };
-
-  const toggleSwap = () => {
-    setIsSwapped((prev) => !prev);
-    setUserAnswers({});
-    setResults({});
-    setIsSubmitted(false);
   };
 
   const calculateScore = () => {
@@ -123,25 +116,49 @@ const VocabLearn: React.FC = () => {
       <div className="min-h-[calc(100vh-80px)] bg-indigo-100 flex items-center justify-center">
         <div className="bg-white p-6 md:p-10 rounded-2xl shadow-xl max-w-md w-full">
           <h1 className="text-2xl md:text-3xl font-bold text-center text-indigo-800 mb-6 md:mb-8">
-            Select Number of Vocabulary
+            Vocabulary Learning Setup
           </h1>
-          <div className="flex justify-center space-x-4 mb-6">
-            {[5, 10, 15].map((value) => (
+          <div className="mb-6">
+            <h2 className="text-lg md:text-xl font-semibold text-indigo-600 mb-2">Number of Words</h2>
+            <div className="flex justify-center space-x-4">
+              {[5, 10, 15].map((value) => (
+                <button
+                  key={value}
+                  onClick={() => setNumVocabs(value)}
+                  className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-indigo-300 font-bold text-base md:text-lg flex items-center justify-center cursor-pointer ${
+                    numVocabs === value ? "bg-indigo-600 text-white" : "bg-white text-indigo-800"
+                  }`}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="mb-6">
+            <h2 className="text-lg md:text-xl font-semibold text-indigo-600 mb-2">Learning Mode</h2>
+            <div className="flex justify-center space-x-4">
               <button
-                key={value}
-                onClick={() => setNumVocabs(value)}
-                className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-indigo-300 font-bold text-base md:text-lg flex items-center justify-center cursor-pointer ${
-                  numVocabs === value ? "bg-indigo-600 text-white" : "bg-white text-indigo-800"
+                onClick={() => setIsSwapped(false)}
+                className={` cursor-pointer px-4 py-2 rounded-lg border-2 border-indigo-300 font-semibold text-sm md:text-base ${
+                  !isSwapped ? "bg-indigo-600 text-white" : "bg-white text-indigo-800"
                 }`}
               >
-                {value}
+                English → Vietnamese
               </button>
-            ))}
+              <button
+                onClick={() => setIsSwapped(true)}
+                className={`cursor-pointer px-4 py-2 rounded-lg border-2 border-indigo-300 font-semibold text-sm md:text-base ${
+                  isSwapped ? "bg-indigo-600 text-white" : "bg-white text-indigo-800"
+                }`}
+              >
+                Vietnamese → English
+              </button>
+            </div>
           </div>
           <div className="flex justify-center">
             <button
               onClick={startLearning}
-              className="bg-indigo-600 text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md text-base md:text-lg font-semibold"
+              className=" cursor-pointer bg-indigo-600 text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md text-base md:text-lg font-semibold"
             >
               Start Learning
             </button>
@@ -157,17 +174,9 @@ const VocabLearn: React.FC = () => {
         <h1 className="text-2xl md:text-3xl font-bold text-indigo-800 mb-6 md:mb-8 text-center">
           Vocabulary Learning ({vocabList.length} Words)
         </h1>
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={toggleSwap}
-            className="bg-blue-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-lg hover:bg-blue-700 transition duration-300 text-sm md:text-base"
-          >
-            {isSwapped ? "English → Vietnamese" : "Vietnamese → English"}
-          </button>
-        </div>
         <div className="space-y-4">
           {vocabList.map((vocab) => (
-            <div key={vocab.english} className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-4 p-4 bg-white rounded-lg shadow-md">
+            <div key={vocab.english} className="flex flex dictatorship-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-4 p-4 bg-white rounded-lg shadow-md">
               <div className="w-full md:w-1/3">
                 <p className="text-base md:text-lg font-semibold">
                   {isSwapped ? vocab.vietnamese[0] : vocab.english}
