@@ -1,6 +1,7 @@
 import asyncio
 from typing import List, Dict, Any, Optional, Union
 from openai_helper import generate_questions
+import uuid
 
 # Danh sách câu hỏi tạm thời để lưu trữ các câu hỏi đã tạo (nếu muốn lưu lại)
 generated_questions = []
@@ -22,7 +23,7 @@ async def get_random_questions(num_questions: int, question_types: Optional[List
     generated_questions.extend(questions)  # Lưu các câu hỏi vào danh sách tạm
     return questions
 
-def get_question_by_id(question_id: int):
+def get_question_by_id(question_id: str):
     """Lấy câu hỏi theo ID từ danh sách đã tạo"""
     for question in generated_questions:
         if question["id"] == question_id:
@@ -31,7 +32,6 @@ def get_question_by_id(question_id: int):
 
 def add_question(question_data: Dict[str, Any]):
     """Thêm câu hỏi mới vào danh sách"""
-    new_id = max([q["id"] for q in generated_questions], default=0) + 1
-    question_data["id"] = new_id
+    question_data["id"] = str(uuid.uuid4())
     generated_questions.append(question_data)
     return question_data

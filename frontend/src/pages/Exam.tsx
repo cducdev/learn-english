@@ -9,22 +9,27 @@ import { faVolumeHigh, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const Exam: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [userAnswers, setUserAnswers] = useState<{ [key: number]: string | string[] }>({});
+  const [userAnswers, setUserAnswers] = useState<{ [key: string]: string | string[] }>({}); // Đổi key thành string
   const [results, setResults] = useState<CheckResult[]>([]);
-  const [explanations, setExplanations] = useState<{ [key: number]: string }>({});
+  const [explanations, setExplanations] = useState<{ [key: string]: string }>({}); // Đổi key thành string
   const [numQuestions, setNumQuestions] = useState<number>(1);
-  const [topic, setTopic] = useState<string>(""); // Thêm state cho topic
+  const [topic, setTopic] = useState<string>("");
   const [isStarted, setIsStarted] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const [loadingExplanations, setLoadingExplanations] = useState<{ [key: number]: boolean }>({});
+  const [loadingExplanations, setLoadingExplanations] = useState<{ [key: string]: boolean }>({}); // Đổi key thành string
 
   const startExam = async () => {
     setLoading(true);
+    setQuestions([]);
+    setUserAnswers({});
+    setResults([]);
+    setExplanations({});
+    setLoadingExplanations({});
     const examRequest = {
       num_questions: numQuestions,
-      topic: topic.trim() || "General Knowledge", // Nếu topic rỗng, mặc định là "General Knowledge"
+      topic: topic.trim() || "General Knowledge",
     };
     const examQuestions = await generateExam(examRequest);
     setQuestions(examQuestions);
@@ -45,7 +50,7 @@ const Exam: React.FC = () => {
     }
   }, [isStarted, isSubmitted, timeLeft]);
 
-  const handleAnswerChange = (questionId: number, answer: string | string[]) => {
+  const handleAnswerChange = (questionId: string, answer: string | string[]) => { // Đổi number thành string
     if (!isSubmitted) {
       setUserAnswers((prev) => ({
         ...prev,
@@ -56,7 +61,7 @@ const Exam: React.FC = () => {
 
   const handleSubmitExam = async () => {
     const answers: Answer[] = questions.map((question) => ({
-      question_id: question.id,
+      question_id: question.id, // question.id là string, khớp với Answer
       answer: userAnswers[question.id] || "",
     }));
 
@@ -75,7 +80,7 @@ const Exam: React.FC = () => {
     localStorage.setItem("wrongQuestions", JSON.stringify(wrongQuestionsList));
   };
 
-  const fetchExplanation = async (questionId: number) => {
+  const fetchExplanation = async (questionId: string) => {
     setLoadingExplanations((prev) => ({ ...prev, [questionId]: true }));
     const question = questions.find((q) => q.id === questionId);
     if (!question) {

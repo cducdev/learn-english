@@ -1,3 +1,4 @@
+import uuid
 import os
 from typing import Dict, Any, Optional, List
 import openai
@@ -168,8 +169,8 @@ async def generate_questions(num_questions: int, question_types: Optional[List[s
             return []
 
         # Gán ID duy nhất cho các câu hỏi
-        for i, question in enumerate(questions, start=1):
-            question["id"] = i
+        for question in questions:
+            question["id"] = str(uuid.uuid4())
 
         return questions
 

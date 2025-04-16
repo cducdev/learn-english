@@ -1,5 +1,5 @@
 export interface Question {
-    id: number;
+    id: string;
     type: "fill_blank" | "multiple_choice" | "sentence_rearrangement";
     question: string;
     options?: string[];
@@ -8,7 +8,7 @@ export interface Question {
   }
   
   export interface Answer {
-    question_id: number;
+    question_id: string;
     answer: string | string[];
   }
   

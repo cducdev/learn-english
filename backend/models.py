@@ -3,7 +3,7 @@ from typing import List, Dict, Any, Optional, Union, Literal
 
 class Question(BaseModel):
     """Model cho câu hỏi"""
-    id: int
+    id: str
     type: Literal["fill_blank", "multiple_choice", "sentence_rearrangement"]
     question: str
     options: Optional[List[str]] = None
@@ -12,7 +12,7 @@ class Question(BaseModel):
 
 class Answer(BaseModel):
     """Model cho câu trả lời của người dùng"""
-    question_id: int
+    question_id: str
     answer: Union[str, List[str]]
 
 class CheckResult(BaseModel):
