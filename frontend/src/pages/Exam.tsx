@@ -1,4 +1,3 @@
-// src/pages/Exam.tsx
 import React, { useState, useEffect } from "react";
 import { Question, CheckResult, Answer } from "../types";
 import { generateExam, checkAnswer } from "../services/api";
@@ -14,6 +13,7 @@ const Exam: React.FC = () => {
   const [results, setResults] = useState<CheckResult[]>([]);
   const [explanations, setExplanations] = useState<{ [key: number]: string }>({});
   const [numQuestions, setNumQuestions] = useState<number>(1);
+  const [topic, setTopic] = useState<string>(""); // Thêm state cho topic
   const [isStarted, setIsStarted] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -22,7 +22,10 @@ const Exam: React.FC = () => {
 
   const startExam = async () => {
     setLoading(true);
-    const examRequest = { num_questions: numQuestions };
+    const examRequest = {
+      num_questions: numQuestions,
+      topic: topic.trim() || "General Knowledge", // Nếu topic rỗng, mặc định là "General Knowledge"
+    };
     const examQuestions = await generateExam(examRequest);
     setQuestions(examQuestions);
     setTimeLeft(numQuestions * 60);
@@ -121,20 +124,37 @@ const Exam: React.FC = () => {
       <div className="min-h-[calc(100vh-80px)] bg-indigo-100 flex items-center justify-center">
         <div className="bg-white p-6 md:p-10 rounded-2xl shadow-xl max-w-md w-full">
           <h1 className="text-2xl md:text-3xl font-bold text-center text-indigo-800 mb-6 md:mb-8">
-            Select Number of Questions
+            Create Your Exam
           </h1>
-          <div className="flex justify-center space-x-4 mb-6">
-            {[1, 5, 10].map((value) => (
-              <button
-                key={value}
-                onClick={() => setNumQuestions(value)}
-                className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-indigo-300 font-bold text-base md:text-lg flex items-center justify-center cursor-pointer ${
-                  numQuestions === value ? "bg-indigo-600 text-white" : "bg-white text-indigo-800"
-                }`}
-              >
-                {value}
-              </button>
-            ))}
+          <div className="mb-6">
+            <label className="block text-base md:text-lg font-semibold text-indigo-800 mb-2">
+              Number of Questions
+            </label>
+            <div className="flex justify-center space-x-4">
+              {[1, 5, 10].map((value) => (
+                <button
+                  key={value}
+                  onClick={() => setNumQuestions(value)}
+                  className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-indigo-300 font-bold text-base md:text-lg flex items-center justify-center cursor-pointer ${
+                    numQuestions === value ? "bg-indigo-600 text-white" : "bg-white text-indigo-800"
+                  }`}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="mb-6">
+            <label className="block text-base md:text-lg font-semibold text-indigo-800 mb-2">
+              Topic
+            </label>
+            <input
+              type="text"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              placeholder="Enter topic (e.g., General Knowledge, Programming)"
+              className="w-full p-2 border border-indigo-300 rounded-lg text-base md:text-lg focus:outline-none focus:border-indigo-600"
+            />
           </div>
           <div className="flex justify-center">
             <button
