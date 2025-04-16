@@ -106,7 +106,8 @@ async def generate_questions(num_questions: int, question_types: Optional[List[s
 
         # Chuẩn bị prompt cho OpenAI
         prompt = f"""
-        Bạn là một trợ lý giáo dục, hãy tạo {num_questions} câu hỏi kiểm tra kiến thức theo định dạng JSON.
+        Bạn là một trợ lý giáo dục, hãy tạo câu hỏi kiểm tra kiến thức theo định dạng JSON.
+        SỐ LƯỢNG CÂU HỎI CẦN TẠO RA: {num_questions} 
         Các câu hỏi phải thuộc các loại sau: {', '.join(question_types)}.
         {(f"Chủ đề của các câu hỏi là: {topic}." if topic else "Chủ đề có thể là bất kỳ lĩnh vực kiến thức chung nào.")}
         
