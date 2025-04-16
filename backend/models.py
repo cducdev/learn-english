@@ -6,14 +6,14 @@ class Question(BaseModel):
     id: int
     type: Literal["fill_blank", "multiple_choice", "sentence_rearrangement"]
     question: str
-    options: Optional[List[str]] = None  # Cho câu hỏi trắc nghiệm
-    answer: Union[str, List[str]]  # Đáp án có thể là chuỗi hoặc danh sách
-    explanation: Optional[str] = None  # Giải thích đáp án
+    options: Optional[List[str]] = None
+    answer: Union[str, List[str]]
+    explanation: Optional[str] = None
 
 class Answer(BaseModel):
     """Model cho câu trả lời của người dùng"""
     question_id: int
-    answer: Union[str, List[str]]  # Câu trả lời có thể là chuỗi hoặc danh sách
+    answer: Union[str, List[str]]
 
 class CheckResult(BaseModel):
     """Model cho kết quả kiểm tra của 1 câu hỏi"""
@@ -24,11 +24,12 @@ class CheckResult(BaseModel):
 class ExamRequest(BaseModel):
     """Model cho yêu cầu tạo bài kiểm tra"""
     num_questions: int = Field(gt=0, description="Số lượng câu hỏi trong bài kiểm tra")
-    question_types: Optional[List[str]] = None  # Loại câu hỏi cần lấy, nếu None thì lấy tất cả
+    question_types: Optional[List[str]] = None
+    topic: Optional[str] = None  # Thêm trường topic
 
 class ExamResult(BaseModel):
     """Model cho kết quả bài kiểm tra"""
     total_questions: int
     correct_answers: int
-    score: float  # Tỉ lệ đúng (0-100%)
-    details: List[Dict[str, Any]]  # Chi tiết từng câu hỏi (id, đúng/sai, lời giải thích, đáp án đúng)
+    score: float
+    details: List[Dict[str, Any]]

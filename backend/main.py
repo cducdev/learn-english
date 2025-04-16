@@ -1,4 +1,3 @@
-# main.py
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict, Any, Optional, Union
@@ -23,10 +22,10 @@ def read_root():
     return {"message": "Chào mừng đến với API Kiểm Tra Kiến Thức"}
 
 @app.get("/get-question", response_model=Question)
-def get_question():
-    question = get_random_question()
+async def get_question(question_types: Optional[List[str]] = None, topic: Optional[str] = None):
+    question = await get_random_question(question_types=question_types, topic=topic)
     if not question:
-        raise HTTPException(status_code=404, detail="Không tìm thấy câu hỏi nào")
+        raise HTTPException(status_code=404, detail="Không thể tạo câu hỏi")
     return question
 
 @app.post("/check-answer", response_model=CheckResult)
@@ -34,7 +33,7 @@ async def validate_answer(answer_data: Answer):
     question = get_question_by_id(answer_data.question_id)
     if not question:
         raise HTTPException(status_code=404, detail="Không tìm thấy câu hỏi")
-    result = check_answer(question, answer_data.answer)  # Chỉ kiểm tra đáp án, không tạo explanation
+    result = check_answer(question, answer_data.answer)
     return result
 
 @app.post("/get-explanation", response_model=dict)
@@ -46,10 +45,14 @@ async def get_explanation_endpoint(answer_data: Answer):
     return {"explanation": explanation or "Không có giải thích"}
 
 @app.post("/generate-exam", response_model=List[Question])
-def generate_exam(exam_request: ExamRequest):
+async def generate_exam(exam_request: ExamRequest):
     if exam_request.num_questions <= 0:
         raise HTTPException(status_code=400, detail="Số lượng câu hỏi phải lớn hơn 0")
-    questions = get_random_questions(exam_request.num_questions)
+    questions = await get_random_questions(
+        num_questions=exam_request.num_questions,
+        question_types=exam_request.question_types,
+        topic=exam_request.topic if hasattr(exam_request, "topic") else None
+    )
     if not questions:
         raise HTTPException(status_code=404, detail="Không thể tạo bài kiểm tra")
     return questions
