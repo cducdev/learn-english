@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Question, CheckResult, Answer } from "../types";
+import { Question, CheckResult, Answer, WrongQuestion } from "../types";
 import { generateExam, checkAnswer } from "../services/api";
 import QuestionComponent from "../components/Question";
 import MarkdownRenderer from "../components/MarkdownRenderer";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeHigh, faSpinner, faFileExport, faFileUpload } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 
 const Exam: React.FC = () => {
@@ -32,12 +33,18 @@ const Exam: React.FC = () => {
       num_questions: numQuestions,
       topic: topic.trim() || "General Knowledge",
     };
-    const examQuestions = await generateExam(examRequest);
-    setQuestions(examQuestions);
-    setTimeLeft(numQuestions * 60);
-    setIsStarted(true);
-    setLoading(false);
-    setIsSubmitted(false);
+    try {
+      const examQuestions = await generateExam(examRequest);
+      setQuestions(examQuestions);
+      setTimeLeft(examQuestions.length * 60);
+      setIsStarted(true);
+      setIsSubmitted(false);
+    } catch (error) {
+      console.error("Error starting exam:", error);
+      toast.error("Failed to start exam. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -66,19 +73,24 @@ const Exam: React.FC = () => {
       answer: userAnswers[question.id] || "",
     }));
 
-    const checkResults = await Promise.all(answers.map((answer) => checkAnswer(answer)));
-    setResults(checkResults);
-    setIsSubmitted(true);
+    try {
+      const checkResults = await Promise.all(answers.map((answer) => checkAnswer(answer)));
+      setResults(checkResults);
+      setIsSubmitted(true);
 
-    const wrongs = questions.filter((_question, index) => !checkResults[index].correct);
-    const storedWrongQuestions = localStorage.getItem("wrongQuestions");
-    let wrongQuestionsList: Question[] = storedWrongQuestions ? JSON.parse(storedWrongQuestions) : [];
-    wrongs.forEach((question) => {
-      if (!wrongQuestionsList.find((q) => q.id === question.id)) {
-        wrongQuestionsList.push(question);
-      }
-    });
-    localStorage.setItem("wrongQuestions", JSON.stringify(wrongQuestionsList));
+      const wrongs = questions.filter((_question, index) => !checkResults[index].correct);
+      const storedWrongQuestions = localStorage.getItem("wrongQuestions");
+      let wrongQuestionsList: WrongQuestion[] = storedWrongQuestions ? JSON.parse(storedWrongQuestions) : [];
+      wrongs.forEach((question) => {
+        if (!wrongQuestionsList.find((q) => q.id === question.id)) {
+          wrongQuestionsList.push({ ...question, timestamp: Date.now() });
+        }
+      });
+      localStorage.setItem("wrongQuestions", JSON.stringify(wrongQuestionsList));
+    } catch (error) {
+      console.error("Error submitting exam:", error);
+      toast.error("Failed to submit exam. Please try again.");
+    }
   };
 
   const fetchExplanation = async (questionId: string) => {
@@ -86,6 +98,7 @@ const Exam: React.FC = () => {
     const question = questions.find((q) => q.id === questionId);
     if (!question) {
       setLoadingExplanations((prev) => ({ ...prev, [questionId]: false }));
+      toast.error("Question not found.");
       return;
     }
     const answer: Answer = {
@@ -98,8 +111,10 @@ const Exam: React.FC = () => {
         ...prev,
         [questionId]: response.data.explanation,
       }));
+      toast.success("Explanation loaded!");
     } catch (error) {
       console.error("Error fetching explanation:", error);
+      toast.error("Failed to load explanation.");
     } finally {
       setLoadingExplanations((prev) => ({ ...prev, [questionId]: false }));
     }
@@ -130,11 +145,20 @@ const Exam: React.FC = () => {
     });
 
     doc.save(`exam-${topic || "general-knowledge"}-${questions.length}-questions.pdf`);
+    toast.success("Exam exported to PDF!");
   };
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      toast.error("No file selected.");
+      return;
+    }
+
+    if (!file.name.endsWith(".pdf")) {
+      toast.error("Only PDF files are supported.");
+      return;
+    }
 
     setLoading(true);
     const formData = new FormData();
@@ -144,13 +168,19 @@ const Exam: React.FC = () => {
       const response = await axios.post("http://localhost:8000/upload-exam", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      const uploadedQuestions: Question[] = response.data.questions;
+      const uploadedQuestions: Question[] = response.data;
       setQuestions(uploadedQuestions);
       setTimeLeft(uploadedQuestions.length * 60);
       setIsStarted(true);
       setIsSubmitted(false);
-    } catch (error) {
+      setUserAnswers({});
+      setResults([]);
+      setExplanations({});
+      setLoadingExplanations({});
+      toast.success("Exam uploaded and parsed successfully!");
+    } catch (error: any) {
       console.error("Error uploading exam:", error);
+      toast.error(error.response?.data?.detail || "Failed to upload and parse exam.");
     } finally {
       setLoading(false);
     }
@@ -223,10 +253,10 @@ const Exam: React.FC = () => {
             </button>
             <label className="bg-green-500 cursor-pointer text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-green-600 transition duration-300 shadow-md text-base md:text-lg font-semibold flex items-center justify-center">
               <FontAwesomeIcon icon={faFileUpload} className="mr-2" />
-              Upload Exam
+              Upload Exam (PDF)
               <input
                 type="file"
-                accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                accept=".pdf"
                 onChange={handleFileUpload}
                 className="hidden"
               />
