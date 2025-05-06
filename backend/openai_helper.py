@@ -4,6 +4,7 @@ from typing import Dict, Any, Optional, List
 import openai
 from dotenv import load_dotenv
 import json
+from pdf_parser import extract_text_from_pdf
 
 # Cấu hình API key cho OpenAI
 load_dotenv()
@@ -177,6 +178,87 @@ async def generate_questions(num_questions: int, question_types: Optional[List[s
 
     except Exception as e:
         print(f"Lỗi khi gọi OpenAI API để tạo câu hỏi: {str(e)}")
+        return []
+
+async def parse_pdf_questions(pdf_content: bytes) -> List[Dict[str, Any]]:
+    """
+    Phân tích nội dung PDF và chuyển đổi thành danh sách câu hỏi JSON sử dụng OpenAI.
+
+    Args:
+        pdf_content: Nội dung PDF dưới dạng bytes
+
+    Returns:
+        Danh sách các câu hỏi theo định dạng Question
+    """
+    try:
+        # Trích xuất văn bản từ PDF
+        pdf_text = extract_text_from_pdf(pdf_content)
+        if not pdf_text:
+            print("Không thể trích xuất văn bản từ PDF")
+            return []
+
+        # Chuẩn bị prompt cho OpenAI để phân tích văn bản
+        prompt = f"""
+        Bạn là một trợ lý giáo dục, hãy phân tích văn bản sau đây từ một tệp PDF chứa danh sách các câu hỏi trắc nghiệm và chuyển đổi chúng thành định dạng JSON theo cấu trúc được chỉ định. Văn bản có thể chứa các câu hỏi trắc nghiệm với câu hỏi, các lựa chọn, và đáp án đúng.
+
+        Văn bản PDF:
+        ```
+        {pdf_text}
+        ```
+
+        Mỗi câu hỏi phải có cấu trúc JSON như sau:
+        - id: số nguyên (tạm thời đặt là 0, sẽ được gán sau)
+        - type: loại câu hỏi (chỉ sử dụng "multiple_choice" cho các câu hỏi trắc nghiệm)
+        - question: nội dung câu hỏi (chuỗi)
+        - options: danh sách các lựa chọn (mảng chuỗi, ví dụ ["A", "B", "C", "D"])
+        - answer: đáp án đúng (chuỗi, ví dụ "A")
+
+        Ví dụ đầu ra:
+        [
+            {{
+                "id": 0,
+                "type": "multiple_choice",
+                "question": "Which is the largest planet in the Solar System?",
+                "options": ["Earth", "Mars", "Jupiter", "Saturn"],
+                "answer": "Jupiter"
+            }}
+        ]
+
+        Lưu ý:
+        - Chỉ xử lý các câu hỏi trắc nghiệm.
+        - Nếu văn bản không rõ ràng, cố gắng suy ra cấu trúc câu hỏi và đáp án.
+        - Loại bỏ các ký tự không cần thiết hoặc định dạng thừa.
+        - Nếu không tìm thấy đáp án đúng, đặt answer là chuỗi rỗng ("").
+        - Trả về mảng JSON chứa tất cả các câu hỏi trích xuất được.
+
+        Trả về: Một mảng JSON chứa các câu hỏi trắc nghiệm.
+        """
+        response = openai.ChatCompletion.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "Bạn là một trợ lý giáo dục, phân tích văn bản và tạo câu hỏi trắc nghiệm theo định dạng JSON chính xác."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=4000,
+            temperature=0.7
+        )
+
+        # Phân tích phản hồi từ OpenAI
+        response_text = response.choices[0].message.content.strip()
+
+        # Xử lý để đảm bảo phản hồi là JSON hợp lệ
+        try:
+            if response_text.startswith("```json"):
+                response_text = response_text[7:-3].strip()
+            questions = json.loads(response_text)
+        except json.JSONDecodeError as e:
+            print(f"Lỗi khi phân tích JSON từ OpenAI: {str(e)}")
+            return []
+
+        return questions
+
+    except Exception as e:
+        print(f"Lỗi khi phân tích câu hỏi từ PDF: {str(e)}")
         return []
 
 def is_openai_configured() -> bool:

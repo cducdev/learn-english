@@ -1,11 +1,12 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict, Any, Optional, Union
 from pydantic import BaseModel
 from models import Question, Answer, CheckResult, ExamRequest
-from database import get_random_question, get_question_by_id, get_random_questions
+from database import get_random_question, get_question_by_id, get_random_questions, add_question
 from services import check_answer, check_answer_with_explanation
-from openai_helper import generate_explanation
+from openai_helper import generate_explanation, parse_pdf_questions
+import uuid
 
 app = FastAPI(title="Hệ Thống Kiểm Tra Kiến Thức")
 
@@ -55,6 +56,25 @@ async def generate_exam(exam_request: ExamRequest):
     )
     if not questions:
         raise HTTPException(status_code=404, detail="Không thể tạo bài kiểm tra")
+    return questions
+
+@app.post("/upload-exam", response_model=List[Question])
+async def upload_exam(file: UploadFile = File(...)):
+    if not file.filename.endswith('.pdf'):
+        raise HTTPException(status_code=400, detail="Chỉ hỗ trợ tệp PDF")
+    
+    # Đọc nội dung PDF
+    content = await file.read()
+    questions = await parse_pdf_questions(content)
+    
+    if not questions:
+        raise HTTPException(status_code=400, detail="Không thể trích xuất câu hỏi từ PDF")
+    
+    # Lưu các câu hỏi vào database
+    for question in questions:
+        question["id"] = str(uuid.uuid4())
+        add_question(question)
+    
     return questions
 
 if __name__ == "__main__":
