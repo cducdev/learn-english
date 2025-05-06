@@ -1,4 +1,3 @@
-// src/pages/Practice.tsx
 import React, { useState } from "react";
 import { Question } from "../types";
 import QuestionComponent from "../components/Question";
@@ -31,7 +30,12 @@ const Practice: React.FC = () => {
     if (stored) {
       try {
         const questions = JSON.parse(stored) as WrongQuestion[];
-        return questions.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        return questions
+          .map((q) => ({
+            ...q,
+            id: String(q.id), // Ensure id is a string
+          }))
+          .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
       } catch (error) {
         console.error("Error parsing wrong questions from localStorage:", error);
         return [];
@@ -55,15 +59,15 @@ const Practice: React.FC = () => {
   });
 
   const [selectedSection, setSelectedSection] = useState<"exam" | "vocab" | null>(null);
-  const [userAnswersQuestions, setUserAnswersQuestions] = useState<{ [key: number]: string | string[] }>({});
-  const [checkedQuestions, setCheckedQuestions] = useState<{ [key: number]: boolean }>({});
-  const [explanationsQuestions, setExplanationsQuestions] = useState<{ [key: number]: string }>({});
-  const [loadingChecksQuestions, setLoadingChecksQuestions] = useState<{ [key: number]: boolean }>({});
+  const [userAnswersQuestions, setUserAnswersQuestions] = useState<{ [key: string]: string | string[] }>({});
+  const [checkedQuestions, setCheckedQuestions] = useState<{ [key: string]: boolean }>({});
+  const [explanationsQuestions, setExplanationsQuestions] = useState<{ [key: string]: string }>({});
+  const [loadingChecksQuestions, setLoadingChecksQuestions] = useState<{ [key: string]: boolean }>({});
 
   const [userAnswersVocabs, setUserAnswersVocabs] = useState<{ [key: string]: string }>({});
   const [checkedVocabs, setCheckedVocabs] = useState<{ [key: string]: boolean }>({});
 
-  const handleAnswerChangeQuestions = (questionId: number, answer: string | string[]) => {
+  const handleAnswerChangeQuestions = (questionId: string, answer: string | string[]) => {
     if (!checkedQuestions[questionId]) {
       setUserAnswersQuestions((prev) => ({
         ...prev,
@@ -82,7 +86,7 @@ const Practice: React.FC = () => {
     }
   };
 
-  const fetchExplanation = async (questionId: number) => {
+  const fetchExplanation = async (questionId: string) => {
     setLoadingChecksQuestions((prev) => ({ ...prev, [questionId]: true }));
     const question = practiceQuestions.find((q) => q.id === questionId);
     if (!question) {
@@ -161,7 +165,7 @@ const Practice: React.FC = () => {
     recognition.start();
   };
 
-  const handleVoiceInputQuestion = (questionId: number) => {
+  const handleVoiceInputQuestion = (questionId: string) => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       toast.error("Your browser does not support speech recognition.");
@@ -187,7 +191,7 @@ const Practice: React.FC = () => {
     recognition.start();
   };
 
-  const removeQuestion = (questionId: number) => {
+  const removeQuestion = (questionId: string) => {
     const updated = practiceQuestions.filter((q) => q.id !== questionId);
     setPracticeQuestions(updated);
     localStorage.setItem("wrongQuestions", JSON.stringify(updated));

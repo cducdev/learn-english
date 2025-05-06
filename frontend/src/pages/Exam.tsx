@@ -5,20 +5,21 @@ import QuestionComponent from "../components/Question";
 import MarkdownRenderer from "../components/MarkdownRenderer";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVolumeHigh, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faVolumeHigh, faSpinner, faFileExport, faFileUpload } from "@fortawesome/free-solid-svg-icons";
+import jsPDF from "jspdf";
 
 const Exam: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [userAnswers, setUserAnswers] = useState<{ [key: string]: string | string[] }>({}); // Đổi key thành string
+  const [userAnswers, setUserAnswers] = useState<{ [key: string]: string | string[] }>({});
   const [results, setResults] = useState<CheckResult[]>([]);
-  const [explanations, setExplanations] = useState<{ [key: string]: string }>({}); // Đổi key thành string
+  const [explanations, setExplanations] = useState<{ [key: string]: string }>({});
   const [numQuestions, setNumQuestions] = useState<number>(1);
   const [topic, setTopic] = useState<string>("");
   const [isStarted, setIsStarted] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const [loadingExplanations, setLoadingExplanations] = useState<{ [key: string]: boolean }>({}); // Đổi key thành string
+  const [loadingExplanations, setLoadingExplanations] = useState<{ [key: string]: boolean }>({});
 
   const startExam = async () => {
     setLoading(true);
@@ -50,7 +51,7 @@ const Exam: React.FC = () => {
     }
   }, [isStarted, isSubmitted, timeLeft]);
 
-  const handleAnswerChange = (questionId: string, answer: string | string[]) => { // Đổi number thành string
+  const handleAnswerChange = (questionId: string, answer: string | string[]) => {
     if (!isSubmitted) {
       setUserAnswers((prev) => ({
         ...prev,
@@ -61,7 +62,7 @@ const Exam: React.FC = () => {
 
   const handleSubmitExam = async () => {
     const answers: Answer[] = questions.map((question) => ({
-      question_id: question.id, // question.id là string, khớp với Answer
+      question_id: question.id,
       answer: userAnswers[question.id] || "",
     }));
 
@@ -101,6 +102,57 @@ const Exam: React.FC = () => {
       console.error("Error fetching explanation:", error);
     } finally {
       setLoadingExplanations((prev) => ({ ...prev, [questionId]: false }));
+    }
+  };
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    let yOffset = 10;
+    doc.setFontSize(16);
+    doc.text(`Exam: ${topic || "General Knowledge"} (${questions.length} Questions)`, 10, yOffset);
+    yOffset += 10;
+
+    questions.forEach((question: Question, index: number) => {
+      doc.setFontSize(12);
+      doc.text(`${index + 1}. ${question.question}`, 10, yOffset);
+      yOffset += 8;
+      if (question.options && question.options.length > 0) {
+        question.options.forEach((option: string, optIndex: number) => {
+          doc.text(`   ${String.fromCharCode(97 + optIndex)}. ${option}`, 10, yOffset);
+          yOffset += 6;
+        });
+      }
+      yOffset += 5;
+      if (yOffset > 270) {
+        doc.addPage();
+        yOffset = 10;
+      }
+    });
+
+    doc.save(`exam-${topic || "general-knowledge"}-${questions.length}-questions.pdf`);
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post("http://localhost:8000/upload-exam", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      const uploadedQuestions: Question[] = response.data.questions;
+      setQuestions(uploadedQuestions);
+      setTimeLeft(uploadedQuestions.length * 60);
+      setIsStarted(true);
+      setIsSubmitted(false);
+    } catch (error) {
+      console.error("Error uploading exam:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -161,7 +213,7 @@ const Exam: React.FC = () => {
               className="w-full p-2 border border-indigo-300 rounded-lg text-base md:text-lg focus:outline-none focus:border-indigo-600"
             />
           </div>
-          <div className="flex justify-center">
+          <div className="flex flex-col space-y-4">
             <button
               onClick={startExam}
               disabled={loading}
@@ -169,6 +221,16 @@ const Exam: React.FC = () => {
             >
               {loading ? "Loading..." : "Start Exam"}
             </button>
+            <label className="bg-green-500 cursor-pointer text-white px-6 py-2 md:px-8 md:py-3 rounded-lg hover:bg-green-600 transition duration-300 shadow-md text-base md:text-lg font-semibold flex items-center justify-center">
+              <FontAwesomeIcon icon={faFileUpload} className="mr-2" />
+              Upload Exam
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+            </label>
           </div>
         </div>
       </div>
@@ -267,6 +329,13 @@ const Exam: React.FC = () => {
               </p>
             </div>
           )}
+          <button
+            onClick={exportToPDF}
+            className="cursor-pointer mt-4 w-full bg-blue-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md text-sm md:text-lg font-semibold flex items-center justify-center"
+          >
+            <FontAwesomeIcon icon={faFileExport} className="mr-2" />
+            Export to PDF
+          </button>
         </div>
       </div>
     </div>
